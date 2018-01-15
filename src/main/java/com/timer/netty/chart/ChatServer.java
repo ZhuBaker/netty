@@ -1,7 +1,5 @@
 package com.timer.netty.chart;
 
-import org.jboss.netty.channel.ServerChannel;
-
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.nio.channels.SelectionKey;
