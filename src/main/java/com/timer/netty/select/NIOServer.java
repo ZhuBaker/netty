@@ -42,7 +42,7 @@ public class NIOServer {
                 //删除已选的key 以防止重复处理
                 iterator.remove();
                 //客户端请求链接事件
-                if(key.isAcceptable()){
+                if(key.isValid() && key.isAcceptable()){
                     System.out.println("acceptable....");
                     ServerSocketChannel server = (ServerSocketChannel) key.channel();
                     //获取客户端链接的通道
@@ -52,7 +52,7 @@ public class NIOServer {
                     //channel.write(ByteBuffer.wrap(new String("Hello Client").getBytes()));
                     // 在客户端链接成功后，为了可以连接到客户端的信息，需要给通道设置读的权限
                     channel.register(this.selector,SelectionKey.OP_READ);
-                }else if(key.isReadable()){
+                }else if(key.isValid() && key.isReadable()){
                     read(key);
                 }
             }
@@ -60,15 +60,20 @@ public class NIOServer {
     }
 
     private void read(SelectionKey key) throws Exception {
+
         SocketChannel channel = (SocketChannel)key.channel();
         ByteBuffer buffer = ByteBuffer.allocate(100);
+
         channel.read(buffer);
         byte[] data = buffer.array();
         String msg = new String(data).trim();
         System.out.println("server receive from client : "+msg);
         ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
         channel.write(outBuffer);
-        key.cancel();
+
+
+        //key.cancel();
+        //channel.close();
     }
 
     public static void main(String[] args) throws Exception{

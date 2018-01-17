@@ -62,8 +62,8 @@ public class NIOClient {
         byte[] data = buffer.array();
         String msg = new String(data).trim();
         System.out.println("client receive msg from server:" + msg);
-
-        key.cancel();
+        //key.cancel();
+        //channel.close();
 
         //ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
         //channel.write(outBuffer);
