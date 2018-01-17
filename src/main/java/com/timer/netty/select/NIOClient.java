@@ -37,6 +37,7 @@ public class NIOClient {
                 SelectionKey key = (SelectionKey) ite.next(); // 删除已选的key,以防重复处理
                 ite.remove(); // 连接事件发生
                 if (key.isConnectable()) {
+                    System.out.println("Connectable ...");
                     SocketChannel channel = (SocketChannel) key.channel(); // 如果正在连接，则完成连接
                     if (channel.isConnectionPending()) {
                         channel.finishConnect();
@@ -56,14 +57,16 @@ public class NIOClient {
     private void read(SelectionKey key) throws Exception {
         SocketChannel channel = (SocketChannel) key.channel();
         // 穿件读取的缓冲区
-        ByteBuffer buffer = ByteBuffer.allocate(10);
+        ByteBuffer buffer = ByteBuffer.allocate(100);
         channel.read(buffer);
         byte[] data = buffer.array();
         String msg = new String(data).trim();
         System.out.println("client receive msg from server:" + msg);
-        ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
-        channel.write(outBuffer);
 
+        key.cancel();
+
+        //ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
+        //channel.write(outBuffer);
     }
 
     /**

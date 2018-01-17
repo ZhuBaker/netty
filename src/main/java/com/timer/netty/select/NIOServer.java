@@ -43,16 +43,17 @@ public class NIOServer {
                 iterator.remove();
                 //客户端请求链接事件
                 if(key.isAcceptable()){
+                    System.out.println("acceptable....");
                     ServerSocketChannel server = (ServerSocketChannel) key.channel();
                     //获取客户端链接的通道
                     SocketChannel channel = server.accept();
                     // 非阻塞模式
                     channel.configureBlocking(false);
-                    channel.write(ByteBuffer.wrap(new String("Hello Client").getBytes()));
+                    //channel.write(ByteBuffer.wrap(new String("Hello Client").getBytes()));
                     // 在客户端链接成功后，为了可以连接到客户端的信息，需要给通道设置读的权限
                     channel.register(this.selector,SelectionKey.OP_READ);
                 }else if(key.isReadable()){
-
+                    read(key);
                 }
             }
         }
@@ -60,13 +61,14 @@ public class NIOServer {
 
     private void read(SelectionKey key) throws Exception {
         SocketChannel channel = (SocketChannel)key.channel();
-        ByteBuffer buffer = ByteBuffer.allocate(10);
+        ByteBuffer buffer = ByteBuffer.allocate(100);
         channel.read(buffer);
         byte[] data = buffer.array();
         String msg = new String(data).trim();
         System.out.println("server receive from client : "+msg);
         ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
         channel.write(outBuffer);
+        key.cancel();
     }
 
     public static void main(String[] args) throws Exception{
