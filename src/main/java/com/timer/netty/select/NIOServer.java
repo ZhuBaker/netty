@@ -64,14 +64,25 @@ public class NIOServer {
         SocketChannel channel = (SocketChannel)key.channel();
         ByteBuffer buffer = ByteBuffer.allocate(100);
 
-        channel.read(buffer);
-        byte[] data = buffer.array();
-        String msg = new String(data).trim();
-        System.out.println("server receive from client : "+msg);
-        ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
-        channel.write(outBuffer);
-
-
+        try{
+            int read = channel.read(buffer);
+            if(read > 0){
+                byte[] data = buffer.array();
+                String msg = new String(data).trim();
+                System.out.println("server receive from client : "+msg);
+                ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
+                channel.write(outBuffer);
+            }else if(read < 0){
+                System.out.println("channel closed");
+                channel.close();
+                key.cancel();
+            }else
+                ;
+        }catch (Exception e){
+            System.out.println("channel exception closed");
+            channel.close();
+            key.cancel();
+        }
         //key.cancel();
         //channel.close();
     }
