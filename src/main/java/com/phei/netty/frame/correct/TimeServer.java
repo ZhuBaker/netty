@@ -55,6 +55,16 @@ public class TimeServer {
 	}
     }
 
+	/**
+	 * 我们通过LineBasedFrameDecoder 和 StringDecoder 成功解决了TCP粘包导致的读半包问题，对于使用者来说
+	 * 只要将支持半包解码的Handler添加到ChannelPipeline中即可，不需要写额外的代码
+	 * LineBasedFrameDecoder的工作原理是它依次遍历ByteBuffer中可读字节，判断是否有"\n"或者"\r\n",如果有，
+	 * 就以此位置为技术位置，从可读索引到结束位置区间的字节就组成一行，它是以换行符为结束标志的解码器，
+	 * 支持携带结束符或者不携带结束符两种解码方式，同时支持配置单行的最大长度。如果连续读取到最大长度后仍然没有发现换行符，
+	 * 就会抛出异常，同时忽略之前读到的异常码流，
+	 * StringDecoder的功能非常简单，就是将接收到的对象转换成字符串，然后继续调用后面的Handler，
+	 * LineBasedFrameDecoder + StringDecoder 的组合就是按行切换的文本解码器，它被设计用来支持TCP 的粘包和拆包
+	 */
     private class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
 	@Override
 	protected void initChannel(SocketChannel arg0) throws Exception {

@@ -24,11 +24,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-/**
- * @author lilinfeng
- * @date 2014年2月14日
- * @version 1.0
- */
+
 public class TimeServer {
 
     public void bind(int port) throws Exception {
