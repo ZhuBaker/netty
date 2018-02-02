@@ -49,7 +49,8 @@ public class TimeServer {
 			workerGroup.shutdownGracefully();
 		}
     }
-
+	// 调用childHandler 来指定连接后调用的ChannelHandler,这个方法传ChannelInitalizer类型的参数
+	// ChannelInitalizer是个抽象类,所以要实现initChannel方法, 这个方法及时用来设置ChannelHandler的
     private class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
 		@Override
 		protected void initChannel(SocketChannel arg0) throws Exception {

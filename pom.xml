@@ -166,11 +166,11 @@
       <version>5.0.0.Alpha1</version>
     </dependency>
 
-    <dependency>
+    <!--<dependency>
       <groupId>org.msgpack</groupId>
       <artifactId>msgpack</artifactId>
       <version>0.6.12</version>
-    </dependency>
+    </dependency>-->
 
 
 
@@ -183,7 +183,22 @@
   </dependencies>
 
   <repositories>
-    <!--<repository>
+
+    <repository>
+      <!-- Maven 自带的中央仓库使用的Id为central 如果其他的仓库声明也是用该Id
+      就会覆盖中央仓库的配置 -->
+      <id>mvnrepository</id>
+      <name>mvnrepository</name>
+      <url>http://www.mvnrepository.com/</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
       <id>nexus-aliyun</id>
       <name>Nexus aliyun</name>
       <url>http://maven.aliyun.com/nexus/content/groups/public</url>
@@ -234,7 +249,7 @@
       <id>thinkgem-repos2</id>
       <name>ThinkGem Repository 2</name>
       <url>https://raw.github.com/thinkgem/repository/master</url>
-    </repository>-->
+    </repository>
   </repositories>
 
   <build>
