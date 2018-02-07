@@ -44,6 +44,7 @@ public class EchoClientHandler extends ChannelHandlerAdapter {
 	for (int i = 0; i < 10; i++) {
 	    ctx.writeAndFlush(Unpooled.copiedBuffer(ECHO_REQ.getBytes()));
 	}
+        ctx.writeAndFlush(Unpooled.copiedBuffer(ECHO_REQ.getBytes(),0,10));
     }
 
     @Override
