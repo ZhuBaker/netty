@@ -1,7 +1,6 @@
 package io.netty.handler.codec.msgpack;
 
-import io.netty.channel.ChannelHandlerAdapter;
-import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
  * Date: 2018-02-08
  * Time: 11:29
  */
-public class ClientHandler extends ChannelHandlerAdapter {
+public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
