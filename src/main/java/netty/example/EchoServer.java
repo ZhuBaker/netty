@@ -25,7 +25,6 @@ public class EchoServer {
     }
 
     public void start() throws Exception {
-        final EchoServerHandler serverHandler = new EchoServerHandler();
         //(1) 创建EventLoopGroup
         EventLoopGroup group = new NioEventLoopGroup();
         try {
@@ -43,7 +42,11 @@ public class EchoServer {
                             //EchoServerHandler 被标注为@Shareable，所以我们可以总是使用同样的实例
                             //这里对于所有的客户端连接来说，都会使用同一个 EchoServerHandler，因为其被标注为@Sharable，
                             //这将在后面的章节中讲到。
-                            ch.pipeline().addLast(serverHandler);
+                            /*ch.pipeline().addLast(new EchoServerHandler());*/
+                            ch.pipeline().addLast(new EchoServerHandler())
+                                    .addLast(new EchoServerHandler2())
+                                    .addLast(new EchoServerHandler3());
+
                         }
                     });
             //(6) 异步地绑定服务器；调用 sync()方法阻塞等待直到绑定完成
