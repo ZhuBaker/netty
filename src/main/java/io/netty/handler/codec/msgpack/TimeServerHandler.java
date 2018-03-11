@@ -21,8 +21,10 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
             //直接输出msg
             System.out.println(msg.toString());
             String remsg = new String("has receive");
+            System.out.println(remsg);
             //回复has receive 给客户端
-            ctx.write(remsg);
+            ctx.pipeline().write(msg);
+            //ctx.write(msg);
         } catch (Exception e) {
             e.printStackTrace();
         }finally {

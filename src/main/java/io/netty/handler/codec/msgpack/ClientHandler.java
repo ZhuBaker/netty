@@ -25,7 +25,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
             UserInfo userInfo = new UserInfo();
             userInfo.setAge(i + "year");
             userInfo.setUsername("senninha");
-            ctx.write(userInfo);
+            ctx.pipeline().write(userInfo);
         }
         ctx.flush();
         System.out.println("-----------------send over-----------------");
