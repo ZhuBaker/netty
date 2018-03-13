@@ -82,11 +82,11 @@ public class NIOServer {
                     ByteBuffer buffer = ByteBuffer.allocate(100);
                     clientKey.attach(buffer);
                 }else if(key.isValid() && key.isReadable()){
-                    /*if(SelectionKeyHolder.isContainKey(key)){
+                    if(SelectionKeyHolder.isContainKey(key)){
                         continue;
                     }
-                    SelectionKeyHolder.put(key);*/
-                    //如果key对应的Channel一直在操作过程中,Selector会认为 该SelectionKey一直处于可读状态,上面selector.select(); 会一直处于非阻塞状态
+                    SelectionKeyHolder.put(key);
+                    //如果key对应的Channel一直在操作过程中,Selector会认为 该SelectionKey一直处于可读状态,上面会一直循环
                     threadPool.execute(new NIOHandler(key));
                 }
             }
