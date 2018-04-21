@@ -2,6 +2,7 @@ package netty.protocal.http;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
@@ -31,8 +32,7 @@ public class HttpClientInboundHandler extends ChannelInboundHandlerAdapter {
         request.headers().set(HttpHeaderNames.CONNECTION,HttpHeaderValues.KEEP_ALIVE);
         request.headers().set(HttpHeaderNames.CONTENT_LENGTH,request.content().readableBytes());
 
-        ctx.channel().write(request);
-        ctx.channel().flush();
+        ctx.channel().writeAndFlush(request).addListener(ChannelFutureListener.CLOSE);
     }
 
     @Override
